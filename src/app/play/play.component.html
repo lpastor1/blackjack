@@ -22,8 +22,9 @@
     <div class="cards-player">
       <img src="../../assets/{{carta}}.svg" [alt]="carta" *ngFor="let carta of game.player.cartas" class="card" (load)="game.sumarPuntos(game.player, game.valorCarta(carta[0]))" [ngStyle]="{'width': carta === 'AS' ? '105px' : ''}">
       <div class="player-buttons-actions" *ngIf="game.on">
-        <button (click)="game.pedirCarta()" *ngIf="!game.player.plantado">Pedir</button>
-        <button (click)="game.plantar()" *ngIf="!game.player.plantado">Plantar</button>
+        <button (click)="game.pedirCarta()" *ngIf="!game.player.plantado && !game.player.doblado">Pedir</button>
+        <button (click)="game.plantar()" *ngIf="!game.player.plantado && !game.player.doblado">Plantar</button>
+        <button (click)="game.doblar()" *ngIf="!game.player.plantado && !game.player.doblado">Doblar</button>
       </div>
     </div>
 

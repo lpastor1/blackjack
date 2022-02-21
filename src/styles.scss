@@ -29,3 +29,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-button-wrapper {
   color: #fff;
 }
+.cdk-overlay-pane {
+  pointer-events: none;
+}
+.mat-snack-bar-container {
+  animation: desaparecer 500ms 2s forwards;
+}
+@keyframes desaparecer {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}

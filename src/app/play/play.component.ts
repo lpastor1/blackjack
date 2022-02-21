@@ -12,7 +12,7 @@ export class PlayComponent implements OnInit {
     apuesta: 0,
     apuestaMaxima: 500,
     on: false,
-    player: {cartas: <any>[], puntos: 0, plantado: false},
+    player: {cartas: <any>[], puntos: 0, plantado: false, doblado: false},
     croupier: {cartas: <any>[], puntos: 0},
     aumentarApuesta(valor: number) {
       if(this.apuesta + valor <= this.apuestaMaxima) {
@@ -53,7 +53,6 @@ export class PlayComponent implements OnInit {
       const nuevoPuntaje = this.player.puntos;
       if(nuevoPuntaje > 21) {
         this.victoriaCroupier()
-        this.nuevaMano();
       }
     },
     pedirCarta() {
@@ -72,6 +71,16 @@ export class PlayComponent implements OnInit {
         }
       }, 1000)
     },
+    doblar() {
+      this.player.doblado = true;
+      this.apuesta *= 2;
+      this.player.cartas.push(this.darCarta());
+      setTimeout(() => {
+        if (this.player.puntos <= 21) {
+          this.plantar();
+        }
+      }, 2000)
+    },
     verificarGanador() {
       if (this.player.puntos > this.croupier.puntos) {
         this.victoriaJugador();
@@ -86,19 +95,22 @@ export class PlayComponent implements OnInit {
       console.log('Ganaste!');
       const buttonVictoria = document.getElementById('btn-victory');
       buttonVictoria?.click();
-      this.nuevaMano();
+      setTimeout(() => this.nuevaMano(), 2000);
+
     },
     victoriaCroupier() {
+      this.player.plantado = true;
+      if(this.player.doblado) {this.fichas -= this.apuesta / 2}
       const buttonDerrota = document.getElementById('btn-defeat');
       buttonDerrota?.click();
-      this.nuevaMano();
+      setTimeout(() => this.nuevaMano(), 2000);
     },
     empate() {
       this.fichas += this.apuesta;
       console.log('Empate!');
       const buttonEmpate = document.getElementById('btn-draw');
       buttonEmpate?.click();
-      this.nuevaMano();
+      setTimeout(() => this.nuevaMano(), 2000);
     },
     nuevaMano() {
       this.apuesta = 0;
@@ -107,6 +119,7 @@ export class PlayComponent implements OnInit {
       this.player.cartas.length = 0;
       this.player.puntos = 0;
       this.player.plantado = false;
+      this.player.doblado = false;
       this.on = false;
     },
   }
