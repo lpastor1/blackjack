@@ -1,0 +1,31 @@
+@use './assets/fonts/fonts.scss';
+
+:root {
+  --font-primary: 'Inter-Black', sans-serif;
+  --font-secondary: 'AnonymousPro-Bold', monospace;
+  --font-tertiary : 'Inter-SemiBold', sans-serif;
+}
+html {
+  font-size: 62.5%;
+}
+* {
+  margin: 0;
+}
+body {
+  min-height: 100vh;
+
+  background-image: url('./assets/background.png');
+  color: #fff;
+  @media (max-width: 575.98px) {
+    padding: 15px 0;
+    background-position: -50px 20px;
+   }
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-button-wrapper {
+  color: #fff;
+}

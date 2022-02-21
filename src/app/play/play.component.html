@@ -1,0 +1,47 @@
+<main>
+  <div class="container">
+    <img src="../../assets/croupier.png" alt="" class="croupier">
+    <img src="../../assets/hidden-card.png" alt="" width="80" class="deck-cards">
+  </div>
+
+  <div class="container player">
+    <div class="chips" *ngIf="!game.on">
+      <img src="../../assets/chip-10.png" alt="Chip of $10" class="chip" (click)="game.aumentarApuesta(10)" [ngClass]="{'disable': game.apuesta + 10 > game.apuestaMaxima}">
+      <img src="../../assets/chip-50.png" alt="Chip of $50" class="chip" (click)="game.aumentarApuesta(50)" [ngClass]="{'disable': game.apuesta + 50 > game.apuestaMaxima}">
+      <img src="../../assets/chip-100.png" alt="Chip of $100" class="chip" (click)="game.aumentarApuesta(100)" [ngClass]="{'disable': game.apuesta + 100 > game.apuestaMaxima}">
+    </div>
+    <div class="player-buttons-starters">
+      <button (click)="game.fichas = game.fichas + game.apuesta; game.apuesta = 0;" *ngIf="!game.on && game.apuesta">Limpiar</button>
+      <button *ngIf="game.apuesta" (click)="game.empezarJuego($event)">Empezar</button>
+    </div>
+
+    <div class="cards-croupier">
+      <img src="../../assets/{{carta}}.svg" [alt]="carta" *ngFor="let carta of game.croupier.cartas" class="card" (load)="game.sumarPuntos(game.croupier, game.valorCarta(carta[0]))" [ngStyle]="{'width': carta === 'AS' ? '105px' : ''}">
+    </div>
+
+    <div class="cards-player">
+      <img src="../../assets/{{carta}}.svg" [alt]="carta" *ngFor="let carta of game.player.cartas" class="card" (load)="game.sumarPuntos(game.player, game.valorCarta(carta[0]))" [ngStyle]="{'width': carta === 'AS' ? '105px' : ''}">
+      <div class="player-buttons-actions" *ngIf="game.on">
+        <button (click)="game.pedirCarta()" *ngIf="!game.player.plantado">Pedir</button>
+        <button (click)="game.plantar()" *ngIf="!game.player.plantado">Plantar</button>
+      </div>
+    </div>
+
+  </div>
+
+  <button mat-stroked-button (click)="mensajeResultado('¡Ganaste!', '+' + game.apuesta)" style="display: none;" id="btn-victory"></button>
+  <button mat-stroked-button (click)="mensajeResultado('¡Perdiste!', '-' + game.apuesta)" style="display: none;" id="btn-defeat"></button>
+  <button mat-stroked-button (click)="mensajeResultado('¡Empate!', '+/-' + game.apuesta)" style="display: none;" id="btn-draw"></button>
+
+  <table>
+    <tr>
+      <td>Apuesta:</td>
+      <td>{{ game.apuesta }}</td>
+    </tr>
+    <tr>
+      <td>Fichas:</td>
+      <td>{{ game.fichas }}</td>
+    </tr>
+  </table>
+
+</main>
